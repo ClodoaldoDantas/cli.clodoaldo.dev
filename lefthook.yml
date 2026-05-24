@@ -1,0 +1,5 @@
+pre-commit:
+  commands:
+    format:
+      glob: "*.{js,ts,jsx,tsx,astro,css,md,json}"
+      run: pnpm format && git add {staged_files}
