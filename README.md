@@ -1,43 +1,73 @@
-# Astro Starter Kit: Minimal
+# Clodoaldo Dev Terminal 🚀
 
-```sh
-pnpm create astro@latest -- --template minimal
+Um portfólio interativo inspirado em interfaces de linha de comando (CLI), construído com as tecnologias mais recentes do ecossistema web.
+
+## ✨ Funcionalidades
+
+- **Terminal Interativo**: Experiência simulada de um terminal zsh moderno.
+- **Comandos Customizados**: Explore informações profissionais através de comandos como `about`, `experience` e `contact`.
+- **Tema Dracula**: Interface visual baseada na popular paleta de cores Dracula.
+- **Design Responsivo**: Adaptado para uma experiência fluida em dispositivos móveis e desktops.
+- **Performance Extrema**: Desenvolvido com Astro para carregamento instantâneo.
+
+## 🛠️ Tecnologias
+
+- [Astro v6](https://astro.build/) - Framework web para performance.
+- [React 19](https://react.dev/) - UI interativa e gerenciamento de estado.
+- [Tailwind CSS v4](https://tailwindcss.com/) - Estilização moderna e eficiente.
+- [TypeScript](https://www.typescriptlang.org/) - Segurança e produtividade com tipagem estática.
+- [pnpm](https://pnpm.io/) - Gerenciamento de pacotes rápido.
+- [Geist Mono](https://vercel.com/font/mono) - Fonte otimizada para legibilidade em código.
+
+## 🚀 Como Executar
+
+### Pré-requisitos
+
+- Node.js >= 22.12.0
+- pnpm
+
+### Instalação
+
+1. Clone o repositório:
+```bash
+git clone https://github.com/seu-usuario/clodoaldo-dev-terminal.git
 ```
 
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
-
-## 🚀 Project Structure
-
-Inside of your Astro project, you'll see the following folders and files:
-
-```text
-/
-├── public/
-├── src/
-│   └── pages/
-│       └── index.astro
-└── package.json
+2. Instale as dependências:
+```bash
+pnpm install
 ```
 
-Astro looks for `.astro` or `.md` files in the `src/pages/` directory. Each page is exposed as a route based on its file name.
+3. Inicie o servidor de desenvolvimento:
+```bash
+pnpm dev
+```
 
-There's nothing special about `src/components/`, but that's where we like to put any Astro/React/Vue/Svelte/Preact components.
+### Build para Produção
 
-Any static assets, like images, can be placed in the `public/` directory.
+Para gerar a versão otimizada do projeto:
+```bash
+pnpm build
+```
 
-## 🧞 Commands
+## 📂 Estrutura do Projeto
 
-All commands are run from the root of the project, from a terminal:
+- `src/components/`: Componentes React (Terminal, Header).
+- `src/pages/`: Páginas Astro (Index).
+- `src/styles/`: Configurações globais de CSS e temas do Tailwind v4.
+- `src/utils/`: Lógica de processamento de comandos do terminal.
 
-| Command                | Action                                           |
-| :--------------------- | :----------------------------------------------- |
-| `pnpm install`         | Installs dependencies                            |
-| `pnpm dev`             | Starts local dev server at `localhost:4321`      |
-| `pnpm build`           | Build your production site to `./dist/`          |
-| `pnpm preview`         | Preview your build locally, before deploying     |
-| `pnpm astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `pnpm astro -- --help` | Get help using the Astro CLI                     |
+## ⌨️ Comandos Disponíveis no Terminal
 
-## 👀 Want to learn more?
+- `about`: Conheça mais sobre minha trajetória.
+- `experience`: Veja meu histórico profissional.
+- `contact`: Encontre meus links para contato.
+- `help`: Lista todos os comandos disponíveis.
+- `clear`: Limpa a tela do terminal.
 
-Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
+## 📄 Licença
+
+Este projeto está sob a licença MIT. Veja o arquivo [LICENSE](LICENSE) para mais detalhes.
+
+---
+Desenvolvido por [Clodoaldo Dantas](https://github.com/clodoaldodantas)
