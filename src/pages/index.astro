@@ -1,28 +1,10 @@
 ---
-import '../styles/global.css'
+import Layout from '../layouts/Layout.astro'
 import { Header } from '../components/Header'
 import { TerminalWindow } from '../components/TerminalWindow'
 ---
 
-<html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
-    <meta name="viewport" content="width=device-width" />
-    <meta name="generator" content={Astro.generator} />
-    <title>Clodoaldo | Software Engineer</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;700&family=Geist+Mono:wght@400;700&display=swap"
-      rel="stylesheet"
-    />
-  </head>
-  <body
-    class="bg-slate-50 flex flex-col items-center justify-start min-h-screen p-4 sm:p-8 py-16 sm:py-20 gap-16"
-  >
-    <Header />
-    <TerminalWindow client:load />
-  </body>
-</html>
+<Layout>
+  <Header />
+  <TerminalWindow client:load />
+</Layout>
