@@ -2,18 +2,69 @@ import { useState, useEffect, useRef, useCallback, memo } from 'react'
 
 type HistoryItem = {
   type: 'command' | 'response'
-  content: string
+  content: string | React.ReactNode
 }
 
 const COMMANDS = {
-  help: 'Available commands: about, experience, contact, clear, help',
+  help: 'Available commands: about, experience, contact, curriculum, clear, help',
   about:
     'Desenvolvedor front-end com foco em React, Next.js e TypeScript. Formado em Análise e Desenvolvimento de Sistemas, crio soluções performáticas, seguras e que geram valor para os usuários.',
   experience:
     'Engenheiro Frontend Pleno @ TQI (2022-Present)\nDesenvolvedor Frontend @ AjaxTI (2020-2022)\nDsenvolvedor Web @ Supermenu (2017-2020)',
   contact:
     'Email: clodoaldodantas8@gmail.com\nGitHub: github.com/clodoaldodantas\nLinkedIn: linkedin.com/in/clodoaldodantas',
+  curriculum: 'Initiating curriculum download...',
 } as const
+
+const DOWNLOAD_INTERVAL_MS = 125
+
+const DownloadAnimation = memo(() => {
+  const [progress, setProgress] = useState(0)
+  const [status, setStatus] = useState('Fetching curriculum...')
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setProgress((prev) => {
+        if (prev >= 100) {
+          clearInterval(interval)
+          return 100
+        }
+        return prev + 5
+      })
+    }, DOWNLOAD_INTERVAL_MS)
+
+    return () => clearInterval(interval)
+  }, [])
+
+  useEffect(() => {
+    if (progress === 0) setStatus('Fetching curriculum...')
+    if (progress === 30) setStatus('Verifying integrity...')
+    if (progress === 60) setStatus('Starting download...')
+    if (progress === 100) {
+      setStatus('Success! Your download should start shortly.')
+      const link = document.createElement('a')
+      link.href = '/profile.pdf'
+      link.download = 'curriculo-clodoaldo-dantas.pdf'
+      document.body.appendChild(link)
+      link.click()
+      document.body.removeChild(link)
+    }
+  }, [progress])
+
+  const barLength = 20
+  const completed = Math.floor((progress / 100) * barLength)
+  const bar = '█'.repeat(completed) + '░'.repeat(barLength - completed)
+
+  return (
+    <div className="space-y-1">
+      <div className="flex gap-2 text-dracula-cyan">
+        <span>[{bar}]</span>
+        <span>{progress}%</span>
+      </div>
+      <div className="text-dracula-green italic">{status}</div>
+    </div>
+  )
+})
 
 const TerminalHeader = memo(() => (
   <div className="flex items-center justify-between px-4 py-3 bg-white/5 border-b border-white/5">
@@ -96,6 +147,16 @@ export const TerminalWindow = () => {
     }
 
     setHistory((prev) => [...prev, { type: 'command', content: cleanValue }])
+
+    if (cleanValue === 'cv' || cleanValue === 'curriculum') {
+      setTimeout(() => {
+        setHistory((prev) => [
+          ...prev,
+          { type: 'response', content: <DownloadAnimation /> },
+        ])
+      }, 100)
+      return
+    }
 
     const response =
       COMMANDS[cleanValue as keyof typeof COMMANDS] ||
