@@ -202,6 +202,12 @@ export const TerminalWindow = () => {
 
   const handleKeyDown = useCallback(
     (e: React.KeyboardEvent<HTMLInputElement>) => {
+      if (e.ctrlKey && e.key.toLowerCase() === 'l') {
+        e.preventDefault()
+        handleCommand('clear')
+        return
+      }
+
       if (e.key !== 'Enter') return
 
       handleCommand(inputValue)
