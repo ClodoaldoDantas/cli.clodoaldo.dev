@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react'
+import { useState, useEffect, useRef, useCallback, memo } from 'react'
 
 type HistoryItem = {
   type: 'command' | 'response'
@@ -14,103 +14,138 @@ const COMMANDS = {
   projects:
     '1. Portfolio-CLI (Astro)\n2. Task-Manager (Go)\n3. Weather-App (React)',
   contact: 'Email: clodoaldo@example.com\nGitHub: github.com/clodoaldo',
-}
+} as const
+
+const TerminalHeader = memo(() => (
+  <div className="flex items-center justify-between px-4 py-3 bg-white/5 border-b border-white/5">
+    <div className="flex gap-2">
+      <div className="w-3 h-3 rounded-full bg-dracula-red shadow-inner"></div>
+      <div className="w-3 h-3 rounded-full bg-dracula-yellow shadow-inner"></div>
+      <div className="w-3 h-3 rounded-full bg-dracula-green shadow-inner"></div>
+    </div>
+    <div className="text-dracula-comment text-sm select-none">
+      clodoaldo — zsh — 80x24
+    </div>
+    <div className="w-12"></div>
+  </div>
+))
+
+const WelcomeMessage = memo(() => (
+  <>
+    <p className="text-dracula-green">
+      Welcome to Clodoaldo's Terminal Portfolio.
+    </p>
+    <p className="text-dracula-comment text-sm mb-4">
+      Type 'help' to see available commands.
+    </p>
+  </>
+))
+
+const Prompt = memo(() => (
+  <div className="flex gap-2 items-center">
+    <span className="text-dracula-green font-bold">guest@clodoaldo</span>
+    <span className="text-dracula-pink">:</span>
+    <span className="text-dracula-purple">~</span>
+    <span className="text-dracula-cyan">$</span>
+  </div>
+))
+
+const HistoryEntry = memo(({ item }: { item: HistoryItem }) => {
+  if (item.type === 'command') {
+    return (
+      <div className="flex gap-2 items-center mb-2">
+        <Prompt />
+        <span className="text-dracula-fg">{item.content}</span>
+      </div>
+    )
+  }
+
+  return (
+    <div className="text-dracula-fg whitespace-pre-wrap mb-2">
+      {item.content}
+    </div>
+  )
+})
 
 export const TerminalWindow = () => {
   const [history, setHistory] = useState<HistoryItem[]>([])
   const [inputValue, setInputValue] = useState('')
   const contentRef = useRef<HTMLDivElement>(null)
+  const inputRef = useRef<HTMLInputElement>(null)
+
+  const scrollToBottom = useCallback(() => {
+    if (contentRef.current) {
+      contentRef.current.scrollTo({
+        top: contentRef.current.scrollHeight,
+        behavior: 'smooth',
+      })
+    }
+  }, [])
 
   useEffect(() => {
-    if (contentRef.current) {
-      contentRef.current.scrollTo(0, contentRef.current.scrollHeight)
+    scrollToBottom()
+  }, [history, scrollToBottom])
+
+  const handleCommand = useCallback((value: string) => {
+    const cleanValue = value.trim().toLowerCase()
+
+    if (!cleanValue) return
+
+    if (cleanValue === 'clear') {
+      setHistory([])
+      return
     }
-  }, [history])
 
-  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === 'Enter') {
-      const value = inputValue.trim().toLowerCase()
+    setHistory((prev) => [...prev, { type: 'command', content: cleanValue }])
 
-      if (value === 'clear') {
-        setHistory([])
-        setInputValue('')
-        return
-      }
+    const response =
+      COMMANDS[cleanValue as keyof typeof COMMANDS] ||
+      `Command not found: ${cleanValue}. Type 'help' for options.`
 
-      if (value) {
-        setHistory((prev) => [...prev, { type: 'command', content: value }])
+    /* Simulating processing delay */
+    setTimeout(() => {
+      setHistory((prev) => [...prev, { type: 'response', content: response }])
+    }, 100)
+  }, [])
 
-        const response =
-          COMMANDS[value as keyof typeof COMMANDS] ||
-          `Command not found: ${value}. Type 'help' for options.`
+  const handleKeyDown = useCallback(
+    (e: React.KeyboardEvent<HTMLInputElement>) => {
+      if (e.key !== 'Enter') return
 
-        /* Simulating processing delay */
-        setTimeout(() => {
-          setHistory((prev) => [
-            ...prev,
-            { type: 'response', content: response },
-          ])
-        }, 100)
-      }
-
+      handleCommand(inputValue)
       setInputValue('')
-    }
-  }
+    },
+    [inputValue, handleCommand]
+  )
+
+  const focusInput = useCallback(() => {
+    inputRef.current?.focus()
+  }, [])
 
   return (
-    <div className="w-full max-w-4xl h-150 flex flex-col bg-dracula-bg border border-white/10 rounded-xl shadow-2xl overflow-hidden font-mono">
-      <div className="flex items-center justify-between px-4 py-3 bg-white/5 border-b border-white/5">
-        <div className="flex gap-2">
-          <div className="w-3 h-3 rounded-full bg-dracula-red shadow-inner"></div>
-          <div className="w-3 h-3 rounded-full bg-dracula-yellow shadow-inner"></div>
-          <div className="w-3 h-3 rounded-full bg-dracula-green shadow-inner"></div>
-        </div>
-        <div className="text-dracula-comment text-sm select-none">
-          clodoaldo — zsh — 80x24
-        </div>
-        <div className="w-12"></div>
-      </div>
+    <div
+      className="w-full max-w-4xl h-150 flex flex-col bg-dracula-bg border border-white/10 rounded-xl shadow-2xl overflow-hidden font-mono"
+      onClick={focusInput}
+    >
+      <TerminalHeader />
 
       <div
         ref={contentRef}
         className="flex-1 overflow-y-auto p-6 text-dracula-fg space-y-2 custom-scrollbar"
       >
         <div id="terminal-history">
-          <p className="text-dracula-green">
-            Welcome to Clodoaldo's Terminal Portfolio.
-          </p>
-          <p className="text-dracula-comment text-sm mb-4">
-            Type 'help' to see available commands.
-          </p>
+          <WelcomeMessage />
 
           {history.map((item, index) => (
-            <div key={index} className="mb-2">
-              {item.type === 'command' ? (
-                <div className="flex gap-2 items-center">
-                  <span className="text-dracula-green font-bold">
-                    guest@clodoaldo
-                  </span>
-                  <span className="text-dracula-pink">:</span>
-                  <span className="text-dracula-purple">~</span>
-                  <span className="text-dracula-cyan">$</span>
-                  <span className="text-dracula-fg">{item.content}</span>
-                </div>
-              ) : (
-                <div className="text-dracula-fg whitespace-pre-wrap">
-                  {item.content}
-                </div>
-              )}
-            </div>
+            <HistoryEntry key={`${index}-${item.content}`} item={item} />
           ))}
         </div>
 
         <div className="flex gap-2 items-center group">
-          <span className="text-dracula-green font-bold">guest@clodoaldo</span>
-          <span className="text-dracula-pink">:</span>
-          <span className="text-dracula-purple">~</span>
-          <span className="text-dracula-cyan">$</span>
+          <Prompt />
           <div className="relative flex-1">
             <input
+              ref={inputRef}
               type="text"
               value={inputValue}
               onChange={(e) => setInputValue(e.target.value)}
@@ -126,5 +161,3 @@ export const TerminalWindow = () => {
     </div>
   )
 }
-
-export default TerminalWindow

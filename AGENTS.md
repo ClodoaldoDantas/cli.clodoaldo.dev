@@ -17,7 +17,7 @@ High-signal guidance for agents working on this repository.
 
 ## Conventions
 - **UI/UX:** Uses Dracula color theme (e.g., `text-dracula-green`, `bg-dracula-bg`). Always check `global.css` for available theme variables.
-- **Components:** React components in `src/components/` must be used with `client:load` (or appropriate directive) in Astro files if they require interactivity.
+- **Components:** React components in `src/components/` must be used with `client:load` (or appropriate directive) in Astro files if they require interactivity. Prefer **named exports** over default exports for all components. Do not use `.displayName` on components.
 - **Formatting:** Adhere to Prettier config in `.prettierrc`. Run `pnpm format` before committing.
 
 ## Verification
