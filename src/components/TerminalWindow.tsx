@@ -8,10 +8,11 @@ type HistoryItem = {
 const COMMANDS = {
   help: 'Available commands: about, experience, contact, clear, help',
   about:
-    'I am a Software Engineer passionate about terminal-based tools and clean code.',
+    'Desenvolvedor front-end com foco em React, Next.js e TypeScript. Formado em Análise e Desenvolvimento de Sistemas, crio soluções performáticas, seguras e que geram valor para os usuários.',
   experience:
-    'Software Engineer @ TechCorp (2021-Present)\nFrontend Dev @ StartupX (2019-2021)',
-  contact: 'Email: clodoaldo@example.com\nGitHub: github.com/clodoaldo',
+    'Engenheiro Frontend Pleno @ TQI (2022-Present)\nDesenvolvedor Frontend @ AjaxTI (2020-2022)\nDsenvolvedor Web @ Supermenu (2017-2020)',
+  contact:
+    'Email: clodoaldodantas8@gmail.com\nGitHub: github.com/clodoaldodantas\nLinkedIn: linkedin.com/in/clodoaldodantas',
 } as const
 
 const TerminalHeader = memo(() => (
@@ -41,7 +42,7 @@ const WelcomeMessage = memo(() => (
 
 const Prompt = memo(() => (
   <div className="flex gap-2 items-center">
-    <span className="text-dracula-green font-bold">guest@clodoaldo</span>
+    <span className="text-dracula-green">guest@clodoaldo</span>
     <span className="text-dracula-pink">:</span>
     <span className="text-dracula-purple">~</span>
     <span className="text-dracula-cyan">$</span>
