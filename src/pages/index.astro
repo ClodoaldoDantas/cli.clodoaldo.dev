@@ -11,23 +11,25 @@ import TerminalWindow from '../components/Terminal/TerminalWindow.astro'
     <meta name="viewport" content="width=device-width" />
     <meta name="generator" content={Astro.generator} />
     <title>Clodoaldo | Software Engineer</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300..700&display=swap"
+      rel="stylesheet"
+    />
   </head>
   <body
-    class="bg-[#020617] bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-slate-900 via-slate-950 to-black flex items-center justify-center h-screen p-4 sm:p-8"
+    class="bg-slate-50 flex flex-col items-center justify-start min-h-screen p-4 sm:p-8 py-16 sm:py-24 gap-16"
   >
-    <!-- Background Decoration -->
-    <div
-      class="absolute top-0 left-0 w-full h-full overflow-hidden -z-10 opacity-30 pointer-events-none"
-    >
-      <div
-        class="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-blue-500/20 blur-[120px] rounded-full"
-      >
-      </div>
-      <div
-        class="absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] bg-emerald-500/20 blur-[120px] rounded-full"
-      >
-      </div>
-    </div>
+    <header class="text-center space-y-4 max-w-3xl">
+      <h1 class="text-4xl sm:text-6xl font-bold tracking-tight text-slate-900">
+        Clodoaldo Dantas
+      </h1>
+      <p class="text-xl sm:text-2xl text-slate-600">
+        Software Engineer specializing in building robust applications and
+        exceptional digital experiences.
+      </p>
+    </header>
 
     <TerminalWindow />
   </body>
