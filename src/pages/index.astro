@@ -1,6 +1,7 @@
 ---
 import '../styles/global.css'
-import TerminalWindow from '../components/Terminal/TerminalWindow.astro'
+import { Header } from '../components/Header'
+import { TerminalWindow } from '../components/TerminalWindow'
 ---
 
 <html lang="en">
@@ -21,16 +22,7 @@ import TerminalWindow from '../components/Terminal/TerminalWindow.astro'
   <body
     class="bg-slate-50 flex flex-col items-center justify-start min-h-screen p-4 sm:p-8 py-16 sm:py-20 gap-16"
   >
-    <header class="text-center space-y-4 max-w-3xl">
-      <h1 class="text-4xl sm:text-6xl font-bold tracking-tight text-slate-900">
-        Clodoaldo Dantas
-      </h1>
-      <p class="text-xl sm:text-2xl text-slate-600">
-        Desenvolvedor front-end especializado em React e TypeScript, criando
-        soluções performáticas, seguras e focadas em valor para o usuário.
-      </p>
-    </header>
-
-    <TerminalWindow />
+    <Header />
+    <TerminalWindow client:load />
   </body>
 </html>
