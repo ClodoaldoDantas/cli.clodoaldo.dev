@@ -1,12 +1,20 @@
-import { useState, useEffect, useRef, useCallback, memo } from 'react'
+import { useState, useEffect, useRef, useCallback, memo, Fragment } from 'react'
 
 type HistoryItem = {
   type: 'command' | 'response'
   content: string | React.ReactNode
 }
 
+const COMMANDS_LIST = [
+  { name: 'about', description: 'Sobre mim e minha carreira' },
+  { name: 'experience', description: 'Minha trajetória profissional' },
+  { name: 'contact', description: 'Formas de entrar em contato' },
+  { name: 'curriculum', description: 'Faz o download do meu currículo' },
+  { name: 'clear', description: 'Limpa o histórico do terminal' },
+  { name: 'help', description: 'Lista todos os comandos disponíveis' },
+] as const
+
 const COMMANDS = {
-  help: 'Available commands: about, experience, contact, curriculum, clear, help',
   about:
     'Desenvolvedor front-end com foco em React, Next.js e TypeScript. Formado em Análise e Desenvolvimento de Sistemas, crio soluções performáticas, seguras e que geram valor para os usuários.',
   experience:
@@ -17,6 +25,20 @@ const COMMANDS = {
 } as const
 
 const DOWNLOAD_INTERVAL_MS = 125
+
+const HelpMessage = memo(() => (
+  <div className="space-y-2">
+    <p className="text-dracula-comment">Available commands:</p>
+    <div className="grid grid-cols-[120px_1fr] gap-x-4 gap-y-1">
+      {COMMANDS_LIST.map((cmd) => (
+        <Fragment key={cmd.name}>
+          <span className="text-dracula-purple">{cmd.name}</span>
+          <span className="text-dracula-fg">{cmd.description}</span>
+        </Fragment>
+      ))}
+    </div>
+  </div>
+))
 
 const DownloadAnimation = memo(() => {
   const [progress, setProgress] = useState(0)
@@ -153,6 +175,16 @@ export const TerminalWindow = () => {
         setHistory((prev) => [
           ...prev,
           { type: 'response', content: <DownloadAnimation /> },
+        ])
+      }, 100)
+      return
+    }
+
+    if (cleanValue === 'help') {
+      setTimeout(() => {
+        setHistory((prev) => [
+          ...prev,
+          { type: 'response', content: <HelpMessage /> },
         ])
       }, 100)
       return
