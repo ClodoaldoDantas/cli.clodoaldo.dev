@@ -6,13 +6,11 @@ type HistoryItem = {
 }
 
 const COMMANDS = {
-  help: 'Available commands: about, experience, projects, contact, clear, help',
+  help: 'Available commands: about, experience, contact, clear, help',
   about:
     'I am a Software Engineer passionate about terminal-based tools and clean code.',
   experience:
     'Software Engineer @ TechCorp (2021-Present)\nFrontend Dev @ StartupX (2019-2021)',
-  projects:
-    '1. Portfolio-CLI (Astro)\n2. Task-Manager (Go)\n3. Weather-App (React)',
   contact: 'Email: clodoaldo@example.com\nGitHub: github.com/clodoaldo',
 } as const
 
